@@ -71,7 +71,7 @@
 		border: 1px solid var(--color-hairline);
 		border-radius: var(--radius-pill);
 		background-color: var(--surface-panel);
-		padding: 7px var(--spacing-16);
+		padding: 8px 15px;
 		font-family: var(--font-text);
 		font-size: var(--text-body-sm);
 		line-height: 1.2;

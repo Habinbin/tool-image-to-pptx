@@ -41,15 +41,18 @@
 		background-color: var(--surface-canvas);
 		border: 1px solid var(--color-hairline);
 		border-radius: var(--radius-card);
-		padding: 9px var(--spacing-12);
+		padding: var(--spacing-8) var(--spacing-12);
 		transition:
 			border-color 0.2s,
-			box-shadow 0.2s;
+			outline-color 0.2s;
+		outline: 2px solid transparent;
+		outline-offset: -1px;
 	}
 
+	/* 스펙의 Form Input 은 포커스 '링' 을 말한다. 그림자가 아니라 outline 으로 그린다. */
 	.field:focus-within {
 		border-color: var(--color-apple-blue);
-		box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-apple-blue) 25%, transparent);
+		outline-color: var(--color-apple-blue);
 	}
 
 	input {
