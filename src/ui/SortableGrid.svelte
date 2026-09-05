@@ -56,7 +56,7 @@
 		>
 			<div class="head">
 				<!-- 순번은 태그다 — 알약 반경 -->
-				<span class="ordinal">{index + 1}</span>
+				<span class="seq">{index + 1}</span>
 				{#if onremove}
 					<button type="button" class="remove" aria-label="제거" onclick={() => onremove(entry)}>
 						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -113,7 +113,7 @@
 		cursor: grab;
 	}
 
-	.ordinal {
+	.seq {
 		border-radius: var(--radius-pill);
 		background-color: var(--surface-sunken);
 		padding: 2px var(--space-8);
