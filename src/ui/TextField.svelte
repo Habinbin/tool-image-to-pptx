@@ -23,25 +23,22 @@
 	label {
 		display: flex;
 		flex-direction: column;
-		gap: var(--spacing-8);
+		gap: var(--space-8);
 	}
 
 	.label {
 		font-size: var(--text-caption);
-		line-height: var(--leading-caption);
-		letter-spacing: var(--tracking-caption);
-		font-weight: var(--weight-regular);
 		color: var(--ink-muted);
 	}
 
 	.field {
 		display: flex;
 		align-items: center;
-		gap: var(--spacing-4);
-		background-color: var(--surface-canvas);
-		border: 1px solid var(--color-hairline);
-		border-radius: var(--radius-card);
-		padding: var(--spacing-8) var(--spacing-12);
+		gap: var(--space-4);
+		background-color: var(--surface-raised);
+		border: 1px solid var(--line);
+		border-radius: var(--radius-control);
+		padding: var(--space-8) var(--space-12);
 		transition:
 			border-color 0.2s,
 			outline-color 0.2s;
@@ -51,8 +48,8 @@
 
 	/* 스펙의 Form Input 은 포커스 '링' 을 말한다. 그림자가 아니라 outline 으로 그린다. */
 	.field:focus-within {
-		border-color: var(--color-apple-blue);
-		outline-color: var(--color-apple-blue);
+		border-color: var(--accent);
+		outline-color: var(--accent);
 	}
 
 	input {
@@ -61,10 +58,8 @@
 		border: 0;
 		background: transparent;
 		padding: 0;
-		font-family: var(--font-text);
+		font-family: var(--font);
 		font-size: var(--text-body-sm);
-		line-height: var(--leading-body-sm);
-		letter-spacing: var(--tracking-body-sm);
 		color: var(--ink);
 	}
 
@@ -80,7 +75,6 @@
 
 	.suffix {
 		font-size: var(--text-body-sm);
-		letter-spacing: var(--tracking-body-sm);
 		color: var(--ink-faint);
 	}
 </style>

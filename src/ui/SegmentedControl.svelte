@@ -18,7 +18,7 @@
 <div class="group">
 	<span class="label">
 		{label}
-		{#if detected}<span class="tag">Auto-detected</span>{/if}
+		{#if detected}<span class="tag">자동 감지</span>{/if}
 	</span>
 	<!-- 선택 상태는 filled 파랑 — 스펙이 #0071e3 에 허용한 두 용도 중 하나 -->
 	<div class="track">
@@ -39,45 +39,41 @@
 	.group {
 		display: flex;
 		flex-direction: column;
-		gap: var(--spacing-8);
+		gap: var(--space-8);
 	}
 
 	.label {
 		display: flex;
 		align-items: center;
-		gap: var(--spacing-8);
+		gap: var(--space-8);
 		font-size: var(--text-caption);
-		line-height: var(--leading-caption);
-		letter-spacing: var(--tracking-caption);
 		color: var(--ink-muted);
 	}
 
 	/* 태그는 알약 — 스펙의 radius.tags */
 	.tag {
 		border-radius: var(--radius-pill);
-		background-color: var(--surface-filled);
-		padding: 2px var(--spacing-8);
+		background-color: var(--surface-sunken);
+		padding: 2px var(--space-8);
 		font-size: var(--text-caption);
-		letter-spacing: var(--tracking-caption);
-		color: var(--ink-secondary);
+		color: var(--ink-muted);
 	}
 
 	.track {
 		display: inline-flex;
-		gap: var(--spacing-4);
+		gap: var(--space-4);
 	}
 
 	.seg {
-		border: 1px solid var(--color-hairline);
+		border: 1px solid var(--line);
 		border-radius: var(--radius-pill);
-		background-color: var(--surface-panel);
+		background-color: var(--surface);
 		padding: 8px 15px;
-		font-family: var(--font-text);
+		font-family: var(--font);
 		font-size: var(--text-body-sm);
 		line-height: 1.2;
-		letter-spacing: var(--tracking-body-sm);
-		font-weight: var(--weight-regular);
-		color: var(--ink-secondary);
+		font-weight: 500;
+		color: var(--ink-muted);
 		cursor: pointer;
 		transition:
 			background-color 0.2s,
@@ -86,13 +82,13 @@
 	}
 
 	.seg:hover:not(.selected) {
-		border-color: var(--color-link-blue);
-		color: var(--color-link-blue);
+		border-color: var(--accent-hover);
+		color: var(--accent-hover);
 	}
 
 	.seg.selected {
-		background-color: var(--color-apple-blue);
-		border-color: var(--color-apple-blue);
-		color: var(--ink-on-accent);
+		background-color: var(--accent);
+		border-color: var(--accent);
+		color: var(--on-accent);
 	}
 </style>

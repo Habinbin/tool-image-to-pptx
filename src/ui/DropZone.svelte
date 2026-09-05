@@ -13,7 +13,7 @@
 		accept,
 		multiple = true,
 		compact = false,
-		label = 'Drop files here',
+		label = '파일을 여기에 놓으세요',
 		hint,
 		onfiles
 	}: Props = $props();
@@ -97,12 +97,12 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		gap: var(--spacing-8);
+		gap: var(--space-8);
 		width: 100%;
-		padding: var(--spacing-56) var(--spacing-24);
-		background-color: var(--surface-panel);
-		border: 1px dashed var(--color-hairline);
-		border-radius: var(--radius-card);
+		padding: var(--space-40) var(--space-24);
+		background-color: var(--surface);
+		border: 1px dashed var(--line);
+		border-radius: var(--radius-control);
 		cursor: pointer;
 		transition:
 			border-color 0.2s,
@@ -111,42 +111,36 @@
 
 	.zone:hover,
 	.zone.dragging {
-		border-color: var(--color-link-blue);
-		background-color: var(--surface-wash);
+		border-color: var(--accent-hover);
+		background-color: var(--surface-raised);
 	}
 
 	.compact .zone {
 		flex-direction: row;
-		padding: var(--spacing-12) var(--spacing-24);
+		padding: var(--space-12) var(--space-24);
 	}
 
 	.icon {
 		width: 28px;
 		height: 28px;
 		color: var(--ink-faint);
-		margin-bottom: var(--spacing-4);
+		margin-bottom: var(--space-4);
 	}
 
 	.label {
-		font-family: var(--font-text);
+		font-family: var(--font);
 		font-size: var(--text-body);
-		line-height: var(--leading-body);
-		letter-spacing: var(--tracking-body);
-		font-weight: var(--weight-regular);
+		font-weight: 500;
 		color: var(--ink);
 	}
 
 	.compact .label {
 		font-size: var(--text-body-sm);
-		letter-spacing: var(--tracking-body-sm);
-		color: var(--ink-secondary);
+		color: var(--ink-muted);
 	}
 
 	.hint {
 		font-size: var(--text-body-sm);
-		line-height: var(--leading-body-sm);
-		letter-spacing: var(--tracking-body-sm);
-		font-weight: var(--weight-light);
 		color: var(--ink-muted);
 		text-align: center;
 		max-width: 56ch;

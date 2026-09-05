@@ -15,7 +15,7 @@
 {#if total > 0}
 	<div class="wrap">
 		<div class="row">
-			<span>{label ?? 'Working'}</span>
+			<span>{label ?? '처리 중'}</span>
 			<span>{value} / {total}</span>
 		</div>
 		<div class="track">
@@ -28,29 +28,27 @@
 	.wrap {
 		display: flex;
 		flex-direction: column;
-		gap: var(--spacing-8);
+		gap: var(--space-8);
 	}
 
 	.row {
 		display: flex;
 		justify-content: space-between;
 		font-size: var(--text-caption);
-		line-height: var(--leading-caption);
-		letter-spacing: var(--tracking-caption);
 		color: var(--ink-muted);
 	}
 
 	.track {
 		height: 4px;
 		border-radius: var(--radius-pill);
-		background-color: var(--surface-filled);
+		background-color: var(--surface-sunken);
 		overflow: hidden;
 	}
 
 	.fill {
 		height: 100%;
 		border-radius: var(--radius-pill);
-		background-color: var(--color-apple-blue);
+		background-color: var(--accent);
 		transition: width 0.2s;
 	}
 </style>

@@ -244,7 +244,7 @@ export interface BuildOptions {
  * @throws 이미지가 하나도 없으면 Error.
  */
 export async function buildPptx(images: SlideImage[], options: BuildOptions): Promise<Blob> {
-	if (images.length === 0) throw new Error('No images to export.');
+	if (images.length === 0) throw new Error('이미지가 없습니다.');
 
 	const { size, title = 'Slides', onProgress } = options;
 	const zip = new JSZip();

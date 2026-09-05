@@ -1,116 +1,82 @@
 /**
- * 디자인 토큰 — Apple Style Reference 에서 도출.
+ * 이 툴의 시각 토큰.
  *
- * 출처: temp/design/{DESIGN.md, tokens.json, variables.css}
- * 이 파일이 이 툴에서 색·타이포·간격이 정의되는 유일한 곳이다.
- * 컴포넌트는 여기 변수만 참조하고 리터럴을 쓰지 않는다.
+ * 계약 토큰(`--betlab-*`)은 호스트가 정의할 수 있고, 없으면 여기 적힌 기본값을 쓴다.
+ * 그래서 툴은 혼자서도 제대로 보이고, 툴박스에 묶이면 툴박스가 정한 모습으로 바뀐다.
+ * 툴을 고칠 필요가 없다. @theme-contract
  *
- * `:root` 가 아니라 `.tool-root` 에 거는 이유: 이 툴은 자기 사이트로도 뜨고
- * 툴박스 안 한 페이지로도 뜬다. 전역을 오염시키면 호스트의 다른 페이지가 물든다.
+ * 기본값의 출발점: .agents/design/apple (Apple Style Reference)
+ *
+ * `:root` 가 아니라 `.tool-root` 에 거는 이유: 이 툴은 자기 사이트로도 뜨고 툴박스 안
+ * 한 페이지로도 뜬다. 전역을 오염시키면 호스트의 다른 화면이 물든다.
  */
 
 .tool-root {
-	/* ── 색 ─────────────────────────────────────────────
-	   파랑은 셋이고 역할이 겹치지 않는다.
-	   apple-blue = filled 액션 전용(텍스트·테두리·장식 금지)
-	   link-blue  = outlined 액션 테두리와 인라인 링크
-	   signal-blue = 장식 전용 */
-	--color-apple-blue: #0071e3;
-	--color-link-blue: #0066cc;
-	--color-signal-blue: #2997ff;
+	/* ── 면 ───────────────────────────────────────── */
+	--surface: var(--betlab-surface, #ffffff);
+	--surface-raised: var(--betlab-surface-raised, #f5f5f7);
+	--surface-sunken: var(--betlab-surface-sunken, #e2e2e5);
 
-	--color-carbon: #1d1d1f;
-	--color-smoke: #333333;
-	--color-graphite: #474747;
-	--color-ash: #707070;
-	--color-mist: #858585;
-	--color-onyx: #000000;
+	/* ── 선 ───────────────────────────────────────── */
+	--line: var(--betlab-line, #d2d2d7);
+	--line-strong: var(--betlab-line-strong, #b8b8bd);
 
-	--color-frost: #f5f5f7;
-	--color-ice: #f4f8fb;
-	--color-pebble: #e2e2e5;
-	--color-white: #ffffff;
+	/* ── 글자 ─────────────────────────────────────── */
+	--ink: var(--betlab-ink, #1d1d1f);
+	--ink-muted: var(--betlab-ink-muted, #6e6e73);
+	--ink-faint: var(--betlab-ink-faint, #8e8e93);
 
-	/* 스펙의 컴포넌트 정의(미니내비·입력·푸터)가 일관되게 쓰는 헤어라인.
-	   토큰 표에는 없지만 시스템의 실질적인 경계선 색이라 이름을 준다. */
-	--color-hairline: #d2d2d7;
+	/* ── 주 행동 ──────────────────────────────────── */
+	--accent: var(--betlab-accent, #0071e3);
+	--accent-hover: var(--betlab-accent-hover, #0066cc);
+	--on-accent: var(--betlab-on-accent, #ffffff);
 
-	/* ── 역할 ───────────────────────────────────────── */
-	--surface-canvas: var(--color-frost);
-	--surface-panel: var(--color-white);
-	--surface-wash: var(--color-ice);
-	--surface-filled: var(--color-pebble);
+	/* ── 의미 ─────────────────────────────────────── */
+	--danger: var(--betlab-danger, #d70015);
+	--success: var(--betlab-success, #248a3d);
+	--warning: var(--betlab-warning, #b25000);
 
-	--ink: var(--color-carbon);
-	--ink-secondary: var(--color-graphite);
-	--ink-muted: var(--color-ash);
-	--ink-faint: var(--color-mist);
-	--ink-on-accent: var(--color-ice);
+	/* ── 서체 ─────────────────────────────────────────
+	   한글·라틴·숫자를 한 글꼴이 처리한다. 두 글꼴을 짝지으면 한 줄 안에서
+	   x-height 가 달라 미세하게 어긋난다. @typography-and-language */
+	--font: var(
+		--betlab-font,
+		'Noto Sans KR Variable',
+		'Noto Sans KR',
+		ui-sans-serif,
+		system-ui,
+		sans-serif
+	);
+	--font-mono: var(--betlab-font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
 
-	/* ── 타이포 ─────────────────────────────────────────
-	   SF Pro 는 웹에 없으므로 스펙이 지정한 대체 Inter 를 앞에 둔다.
-	   자간은 크기가 커질수록 음수 폭이 줄어드는 것이 이 시스템의 특징이다. */
-	--font-display:
-		'SF Pro Display', 'Inter Variable', Inter, ui-sans-serif, system-ui, -apple-system,
-		BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-	--font-text:
-		'SF Pro Text', 'Inter Variable', Inter, ui-sans-serif, system-ui, -apple-system,
-		BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	/* ── 모양 ─────────────────────────────────────── */
+	--radius-control: var(--betlab-radius-control, 8px);
+	--radius-panel: var(--betlab-radius-panel, 12px);
+	--radius-pill: var(--betlab-radius-pill, 980px);
+
+	/* ── 이 툴의 것 (계약 밖) ─────────────────────────
+	   간격은 계약에 넣지 않는다. 목록 사이가 얼마나 떨어져야 읽기 좋은지는
+	   이 화면을 만든 쪽이 안다. @theme-contract */
+	--space-4: 4px;
+	--space-8: 8px;
+	--space-12: 12px;
+	--space-16: 16px;
+	--space-20: 20px;
+	--space-24: 24px;
+	--space-32: 32px;
+	--space-40: 40px;
 
 	--text-caption: 12px;
-	--leading-caption: 1.33;
-	--tracking-caption: -0.264px;
 	--text-body-sm: 14px;
-	--leading-body-sm: 1.29;
-	--tracking-body-sm: -0.224px;
-	--text-body: 17px;
-	--leading-body: 1.47;
-	--tracking-body: -0.272px;
-	--text-subheading: 21px;
-	--leading-subheading: 1.24;
-	--tracking-subheading: -0.105px;
-	--text-heading-sm: 28px;
-	--leading-heading-sm: 1.18;
-	--tracking-heading-sm: 0.196px;
-
-	--weight-light: 300;
-	--weight-regular: 400;
-	--weight-semibold: 600;
-
-	/* ── 간격 (4px 단위, comfortable) ───────────────── */
-	--spacing-4: 4px;
-	--spacing-8: 8px;
-	--spacing-12: 12px;
-	--spacing-16: 16px;
-	--spacing-20: 20px;
-	--spacing-24: 24px;
-	--spacing-40: 40px;
-	--spacing-48: 48px;
-	--spacing-56: 56px;
-
-	--page-max-width: 1440px;
-	--section-gap: 64px;
-	--card-padding: 24px;
-	--element-gap: 12px;
-
-	/* ── 모양 ───────────────────────────────────────────
-	   반경은 둘뿐이다. 버튼·태그는 알약, 카드·이미지·입력은 8px.
-	   그 사이 값은 이 시스템에 존재하지 않는다. */
-	--radius-pill: 980px;
-	--radius-card: 8px;
-
-	/* 그림자는 제품 이미지에만. 카드·버튼·패널에는 쓰지 않는다. */
-	--shadow-image: rgba(0, 0, 0, 0.22) 3px 5px 30px 0px;
+	--text-body: 15px;
+	--text-title: 20px;
 }
 
-/* 툴 루트의 기본 조판. 호스트가 무엇을 깔았든 이 안은 이 시스템을 따른다. */
 .tool-root {
-	background-color: var(--surface-canvas);
 	color: var(--ink);
-	font-family: var(--font-text);
+	font-family: var(--font);
 	font-size: var(--text-body);
-	line-height: var(--leading-body);
-	letter-spacing: var(--tracking-body);
+	line-height: 1.5;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -122,17 +88,13 @@
 }
 
 .tool-root :focus-visible {
-	outline: 2px solid var(--color-apple-blue);
+	outline: 2px solid var(--accent);
 	outline-offset: 2px;
 }
 
 /*
- * 호스트 CSS 로부터 폼 컨트롤을 지킨다.
- *
- * 툴박스는 @tailwindcss/forms 를 쓰고, 그 플러그인은 input 의 포커스 링을
- * box-shadow 로 그린다. 그대로 두면 툴박스 안에서는 링이 두 겹이고 단독
- * 배포에서는 한 겹이 되어 같은 툴이 두 모습이 된다.
- * 이 시스템은 그림자를 쓰지 않으므로 전부 끈다.
+ * 호스트 CSS 로부터 폼 컨트롤을 지킨다. 툴박스가 @tailwindcss/forms 를 쓰면
+ * input 포커스 링을 box-shadow 로 그려서 링이 두 겹이 된다.
  */
 .tool-root input,
 .tool-root button,

@@ -1,10 +1,9 @@
 <script lang="ts">
 	/*
 		폰트를 툴이 직접 싣는다. 호스트에서 빌려 쓰면 툴박스 안에서와 단독 배포에서
-		서로 다른 글꼴로 뜬다. 스펙의 SF Pro 는 Apple 전용이라 웹에 없고,
-		스펙이 지정한 대체 폰트가 Inter 다.
+		다른 글꼴로 뜬다. @typography-and-language
 	*/
-	import '@fontsource-variable/inter';
+	import '@fontsource-variable/noto-sans-kr';
 	import './ui/theme.css';
 
 	import Button from './ui/Button.svelte';
@@ -13,7 +12,6 @@
 	import SegmentedControl from './ui/SegmentedControl.svelte';
 	import SortableGrid from './ui/SortableGrid.svelte';
 	import TextField from './ui/TextField.svelte';
-	import ToolShell from './ui/ToolShell.svelte';
 
 	import {
 		PRESET_ORDER,
@@ -30,13 +28,6 @@
 		referenceSize,
 		type SlideEntry
 	} from './slides';
-
-	interface Props {
-		/** 목록으로 돌아갈 경로. 껍데기가 정한다. 단독 배포에서는 비운다. */
-		backHref?: string;
-	}
-
-	let { backHref }: Props = $props();
 
 	const ACCEPT = 'image/png,image/jpeg,image/gif,image/webp';
 
@@ -86,14 +77,6 @@
 		rejected = result.rejected;
 	}
 
-	/** 목록과 상태를 처음으로 되돌린다. */
-	function reset(): void {
-		entries = [];
-		rejected = [];
-		presetOverride = null;
-		exported = 0;
-	}
-
 	/** 현재 목록을 PPTX 로 만들어 내려받는다. */
 	async function exportPptx(): Promise<void> {
 		if (entries.length === 0 || exporting) return;
@@ -123,47 +106,41 @@
 	}
 </script>
 
-<ToolShell
-	title="Images to PPTX"
-	description="Drop images and export a PPTX with one full-bleed slide per image."
-	{backHref}
->
-	{#snippet actions()}
-		{#if entries.length > 0}
-			<Button variant="ghost" onclick={reset}>Clear all</Button>
-		{/if}
-	{/snippet}
-
+<!--
+	본문만 그린다. 제목·설명·뒤로가기는 호스트(툴박스 또는 단독 앱)의 몫이다.
+	그래서 이 툴은 자기가 어느 화면 구성 안에 있는지 몰라도 된다. @theme-contract
+-->
+<div class="tool-root">
 	{#if entries.length === 0}
 		<div class="empty">
 			<DropZone
 				accept={ACCEPT}
 				onfiles={add}
-				label="Drop images here"
-				hint="Slides follow filename order (0, 1, 2 … 10). PNG · JPEG · GIF · WebP"
+				label="이미지를 여기에 놓으세요"
+				hint="파일명 순서(0, 1, 2 … 10)대로 슬라이드가 만들어집니다. PNG · JPEG · GIF · WebP"
 			/>
 		</div>
 	{:else}
 		<div class="stack">
 			<section class="bar">
 				<div class="controls">
-					<TextField bind:value={fileName} label="File name" suffix=".pptx" />
+					<TextField bind:value={fileName} label="파일 이름" suffix=".pptx" />
 					<SegmentedControl
 						bind:value={
 							() => presetOverride ?? detected ?? '16:10', (v: AspectPreset) => (presetOverride = v)
 						}
 						options={PRESET_ORDER.map((p) => ({ value: p, label: p }))}
-						label="Slide ratio"
+						label="슬라이드 비율"
 						detected={presetOverride === null && detected !== null}
 					/>
 				</div>
 
 				<div class="export">
 					{#if exporting}
-						<ProgressBar value={exported} total={entries.length} label="Building slides" />
+						<ProgressBar value={exported} total={entries.length} label="슬라이드 생성" />
 					{/if}
 					<Button variant="filled" onclick={exportPptx} disabled={exporting}>
-						{exporting ? 'Building…' : `Export PPTX (${entries.length})`}
+						{exporting ? '만드는 중…' : `PPT 내보내기 (${entries.length}장)`}
 					</Button>
 				</div>
 			</section>
@@ -171,13 +148,10 @@
 			{#if rejected.length > 0 || offRatio > 0}
 				<ul class="notes">
 					{#if rejected.length > 0}
-						<li>Skipped, not an image: {rejected.join(', ')}</li>
+						<li>이미지가 아니라 제외됨: {rejected.join(', ')}</li>
 					{/if}
 					{#if offRatio > 0}
-						<li>
-							{offRatio} image{offRatio > 1 ? 's' : ''} will be stretched — aspect ratio differs from
-							the slide.
-						</li>
+						<li>{offRatio}장이 슬라이드와 비율이 달라 늘어나 보입니다.</li>
 					{/if}
 				</ul>
 			{/if}
@@ -202,49 +176,46 @@
 				{/snippet}
 			</SortableGrid>
 
-			<DropZone accept={ACCEPT} compact onfiles={add} label="Add more images" />
+			<DropZone accept={ACCEPT} compact onfiles={add} label="이미지 더 추가" />
 		</div>
 	{/if}
-</ToolShell>
+</div>
 
 <style>
 	.empty {
-		padding-top: var(--spacing-48);
+		padding-top: var(--space-32);
 	}
 
 	.stack {
 		display: flex;
 		flex-direction: column;
-		gap: var(--spacing-40);
+		gap: var(--space-32);
 	}
 
-	/*
-		스펙은 #f5f5f7 섹션 안에 카드를 두지 말라고 한다. 컨트롤 줄은 카드가 아니라
-		헤어라인으로 구분된 띠로 둔다 — 면을 하나 더 얹지 않는다.
-	*/
+	/* 컨트롤 줄은 카드가 아니라 헤어라인 띠 — 캔버스 위에 면을 하나 더 얹지 않는다. */
 	.bar {
 		display: flex;
 		flex-wrap: wrap;
 		align-items: flex-end;
 		justify-content: space-between;
-		gap: var(--spacing-24);
-		padding-bottom: var(--spacing-24);
-		border-bottom: 1px solid var(--color-hairline);
+		gap: var(--space-24);
+		padding-bottom: var(--space-24);
+		border-bottom: 1px solid var(--line);
 	}
 
 	.controls {
 		display: flex;
 		flex-wrap: wrap;
 		align-items: flex-end;
-		gap: var(--spacing-24);
+		gap: var(--space-24);
 	}
 
 	.export {
 		display: flex;
 		flex-direction: column;
 		align-items: stretch;
-		gap: var(--spacing-12);
-		min-width: 240px;
+		gap: var(--space-12);
+		min-width: 220px;
 	}
 
 	.notes {
@@ -253,26 +224,22 @@
 		padding: 0;
 		display: flex;
 		flex-direction: column;
-		gap: var(--spacing-4);
+		gap: var(--space-4);
 		font-size: var(--text-body-sm);
-		line-height: var(--leading-body-sm);
-		letter-spacing: var(--tracking-body-sm);
-		color: var(--ink-muted);
+		color: var(--warning);
 	}
 
 	img {
 		display: block;
 		width: 100%;
-		background-color: var(--surface-filled);
+		background-color: var(--surface-sunken);
 		object-fit: fill;
 	}
 
 	.name {
 		margin: 0;
-		padding: var(--spacing-8) var(--spacing-12);
+		padding: var(--space-8) var(--space-12);
 		font-size: var(--text-caption);
-		line-height: var(--leading-caption);
-		letter-spacing: var(--tracking-caption);
 		color: var(--ink-muted);
 		overflow: hidden;
 		text-overflow: ellipsis;

@@ -125,7 +125,7 @@ describe('buildPptx', () => {
 	});
 
 	it('이미지가 없으면 거부한다', async () => {
-		await expect(buildPptx([], { size: SIZE })).rejects.toThrow('No images to export');
+		await expect(buildPptx([], { size: SIZE })).rejects.toThrow('이미지가 없습니다');
 	});
 
 	it('제목의 XML 특수문자를 이스케이프한다', async () => {

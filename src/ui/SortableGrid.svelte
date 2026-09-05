@@ -58,7 +58,7 @@
 				<!-- 순번은 태그다 — 알약 반경 -->
 				<span class="ordinal">{index + 1}</span>
 				{#if onremove}
-					<button type="button" class="remove" aria-label="Remove" onclick={() => onremove(entry)}>
+					<button type="button" class="remove" aria-label="제거" onclick={() => onremove(entry)}>
 						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
 							<path d="M6 6l12 12M18 6L6 18" stroke-linecap="round" />
 						</svg>
@@ -77,7 +77,7 @@
 		padding: 0;
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-		gap: var(--spacing-20);
+		gap: var(--space-20);
 	}
 
 	/*
@@ -88,16 +88,16 @@
 		display: flex;
 		flex-direction: column;
 		overflow: hidden;
-		background-color: var(--surface-panel);
-		border: 1px solid var(--color-hairline);
-		border-radius: var(--radius-card);
+		background-color: var(--surface);
+		border: 1px solid var(--line);
+		border-radius: var(--radius-control);
 		transition:
 			border-color 0.2s,
 			opacity 0.2s;
 	}
 
 	li.over {
-		border-color: var(--color-link-blue);
+		border-color: var(--accent-hover);
 	}
 
 	li.dragging {
@@ -108,20 +108,18 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: var(--spacing-8) var(--spacing-12);
-		border-bottom: 1px solid var(--color-hairline);
+		padding: var(--space-8) var(--space-12);
+		border-bottom: 1px solid var(--line);
 		cursor: grab;
 	}
 
 	.ordinal {
 		border-radius: var(--radius-pill);
-		background-color: var(--surface-filled);
-		padding: 2px var(--spacing-8);
+		background-color: var(--surface-sunken);
+		padding: 2px var(--space-8);
 		font-size: var(--text-caption);
-		line-height: var(--leading-caption);
-		letter-spacing: var(--tracking-caption);
-		font-weight: var(--weight-semibold);
-		color: var(--ink-secondary);
+		font-weight: 600;
+		color: var(--ink-muted);
 	}
 
 	.remove {
@@ -152,7 +150,7 @@
 	}
 
 	.remove:hover {
-		background-color: var(--surface-filled);
+		background-color: var(--surface-sunken);
 		color: var(--ink);
 	}
 </style>

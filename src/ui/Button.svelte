@@ -3,8 +3,8 @@
 	import type { HTMLButtonAttributes } from 'svelte/elements';
 
 	/**
-	 * 스펙의 액션 셋. filled 는 파랑 하나, outlined 는 그 짝, ghost 는 인라인 링크.
-	 * filled 둘을 나란히 쌓지 않는다 — 스펙의 Do 항목.
+	 * filled 는 주 행동 하나, outlined 는 그 짝, ghost 는 인라인 링크.
+	 * filled 둘을 나란히 쌓지 않는다.
 	 */
 	type Variant = 'filled' | 'outlined' | 'ghost';
 
@@ -27,15 +27,13 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		gap: var(--spacing-8);
-		/* 알약은 이 시스템에서 협상 대상이 아니다. */
+		gap: var(--space-8);
 		border-radius: var(--radius-pill);
 		padding: 11px 15px;
-		font-family: var(--font-text);
+		font-family: var(--font);
 		font-size: var(--text-body);
 		line-height: 1.2;
-		letter-spacing: var(--tracking-body);
-		font-weight: var(--weight-regular);
+		font-weight: 500;
 		border: 1px solid transparent;
 		cursor: pointer;
 		transition:
@@ -47,7 +45,6 @@
 	.btn.compact {
 		padding: 8px 15px;
 		font-size: var(--text-body-sm);
-		letter-spacing: var(--tracking-body-sm);
 	}
 
 	.btn:disabled {
@@ -56,28 +53,28 @@
 	}
 
 	.filled {
-		background-color: var(--color-apple-blue);
-		color: var(--ink-on-accent);
+		background-color: var(--accent);
+		color: var(--on-accent);
 	}
 
 	.filled:hover:not(:disabled) {
-		background-color: var(--color-link-blue);
+		background-color: var(--accent-hover);
 	}
 
 	.outlined {
 		background-color: transparent;
-		border-color: var(--color-link-blue);
-		color: var(--color-link-blue);
+		border-color: var(--accent-hover);
+		color: var(--accent-hover);
 	}
 
 	.outlined:hover:not(:disabled) {
-		background-color: color-mix(in srgb, var(--color-link-blue) 6%, transparent);
+		background-color: color-mix(in srgb, var(--accent-hover) 6%, transparent);
 	}
 
 	.ghost {
 		background-color: transparent;
-		color: var(--color-link-blue);
-		padding: var(--spacing-4) var(--spacing-8);
+		color: var(--accent-hover);
+		padding: var(--space-4) var(--space-8);
 	}
 
 	.ghost:hover:not(:disabled) {
