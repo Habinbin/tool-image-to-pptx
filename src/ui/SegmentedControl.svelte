@@ -18,7 +18,7 @@
 <div class="group">
 	<span class="label">
 		{label}
-		{#if detected}<span class="tag">자동 감지</span>{/if}
+		{#if detected}<span class="tag">Auto-detected</span>{/if}
 	</span>
 	<!-- 선택 상태는 filled 파랑 — 스펙이 #0071e3 에 허용한 두 용도 중 하나 -->
 	<div class="track">

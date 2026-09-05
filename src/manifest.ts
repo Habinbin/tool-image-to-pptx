@@ -8,9 +8,9 @@ import PresentationIcon from '@lucide/svelte/icons/presentation';
  */
 export const manifest = {
 	id: 'image-to-pptx',
-	title: '이미지 → PPT',
+	title: 'Images to PPTX',
 	description:
-		'이미지를 드롭하면 한 장씩 슬라이드에 꽉 채운 PPTX로 내보냅니다. 비율과 순서는 자동으로 잡습니다.',
+		'Drop images and export a PPTX with one full-bleed slide per image. Ratio and order are detected automatically.',
 	category: 'Document Tools',
 	icon: PresentationIcon,
 	/** 'embed' — 툴박스 안 라우트로 렌더한다. @standalone-tool-deployment */

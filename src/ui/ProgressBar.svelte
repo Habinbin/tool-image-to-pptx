@@ -15,7 +15,7 @@
 {#if total > 0}
 	<div class="wrap">
 		<div class="row">
-			<span>{label ?? '처리 중'}</span>
+			<span>{label ?? 'Working'}</span>
 			<span>{value} / {total}</span>
 		</div>
 		<div class="track">

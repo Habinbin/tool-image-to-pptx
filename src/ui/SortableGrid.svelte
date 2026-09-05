@@ -58,7 +58,7 @@
 				<!-- 순번은 태그다 — 알약 반경 -->
 				<span class="ordinal">{index + 1}</span>
 				{#if onremove}
-					<button type="button" class="remove" aria-label="제거" onclick={() => onremove(entry)}>
+					<button type="button" class="remove" aria-label="Remove" onclick={() => onremove(entry)}>
 						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
 							<path d="M6 6l12 12M18 6L6 18" stroke-linecap="round" />
 						</svg>

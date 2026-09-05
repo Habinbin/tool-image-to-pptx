@@ -13,7 +13,7 @@
 		accept,
 		multiple = true,
 		compact = false,
-		label = '파일을 여기에 놓으세요',
+		label = 'Drop files here',
 		hint,
 		onfiles
 	}: Props = $props();

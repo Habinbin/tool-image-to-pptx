@@ -22,7 +22,7 @@
 	<header>
 		<div class="bar">
 			{#if backHref}
-				<a class="back" href={backHref} aria-label="목록으로">
+				<a class="back" href={backHref} aria-label="Back">
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
 						<path d="M15 5l-7 7 7 7" stroke-linecap="round" stroke-linejoin="round" />
 					</svg>

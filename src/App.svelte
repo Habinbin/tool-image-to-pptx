@@ -1,4 +1,10 @@
 <script lang="ts">
+	/*
+		폰트를 툴이 직접 싣는다. 호스트에서 빌려 쓰면 툴박스 안에서와 단독 배포에서
+		서로 다른 글꼴로 뜬다. 스펙의 SF Pro 는 Apple 전용이라 웹에 없고,
+		스펙이 지정한 대체 폰트가 Inter 다.
+	*/
+	import '@fontsource-variable/inter';
 	import './ui/theme.css';
 
 	import Button from './ui/Button.svelte';
@@ -118,13 +124,13 @@
 </script>
 
 <ToolShell
-	title="이미지 → PPT"
-	description="이미지를 드롭하면 한 장씩 슬라이드에 꽉 채운 PPTX로 내보냅니다."
+	title="Images to PPTX"
+	description="Drop images and export a PPTX with one full-bleed slide per image."
 	{backHref}
 >
 	{#snippet actions()}
 		{#if entries.length > 0}
-			<Button variant="ghost" onclick={reset}>전체 지우기</Button>
+			<Button variant="ghost" onclick={reset}>Clear all</Button>
 		{/if}
 	{/snippet}
 
@@ -133,31 +139,31 @@
 			<DropZone
 				accept={ACCEPT}
 				onfiles={add}
-				label="이미지를 여기에 놓으세요"
-				hint="파일명 순서(0, 1, 2 … 10)대로 슬라이드가 만들어집니다. PNG · JPEG · GIF · WebP"
+				label="Drop images here"
+				hint="Slides follow filename order (0, 1, 2 … 10). PNG · JPEG · GIF · WebP"
 			/>
 		</div>
 	{:else}
 		<div class="stack">
 			<section class="bar">
 				<div class="controls">
-					<TextField bind:value={fileName} label="파일 이름" suffix=".pptx" />
+					<TextField bind:value={fileName} label="File name" suffix=".pptx" />
 					<SegmentedControl
 						bind:value={
 							() => presetOverride ?? detected ?? '16:10', (v: AspectPreset) => (presetOverride = v)
 						}
 						options={PRESET_ORDER.map((p) => ({ value: p, label: p }))}
-						label="슬라이드 비율"
+						label="Slide ratio"
 						detected={presetOverride === null && detected !== null}
 					/>
 				</div>
 
 				<div class="export">
 					{#if exporting}
-						<ProgressBar value={exported} total={entries.length} label="슬라이드 생성" />
+						<ProgressBar value={exported} total={entries.length} label="Building slides" />
 					{/if}
 					<Button variant="filled" onclick={exportPptx} disabled={exporting}>
-						{exporting ? '만드는 중…' : `PPT 내보내기 (${entries.length}장)`}
+						{exporting ? 'Building…' : `Export PPTX (${entries.length})`}
 					</Button>
 				</div>
 			</section>
@@ -165,10 +171,13 @@
 			{#if rejected.length > 0 || offRatio > 0}
 				<ul class="notes">
 					{#if rejected.length > 0}
-						<li>이미지가 아니라 제외됨: {rejected.join(', ')}</li>
+						<li>Skipped, not an image: {rejected.join(', ')}</li>
 					{/if}
 					{#if offRatio > 0}
-						<li>{offRatio}장이 슬라이드와 비율이 달라 늘어나 보입니다.</li>
+						<li>
+							{offRatio} image{offRatio > 1 ? 's' : ''} will be stretched — aspect ratio differs from
+							the slide.
+						</li>
 					{/if}
 				</ul>
 			{/if}
@@ -193,7 +202,7 @@
 				{/snippet}
 			</SortableGrid>
 
-			<DropZone accept={ACCEPT} compact onfiles={add} label="이미지 더 추가" />
+			<DropZone accept={ACCEPT} compact onfiles={add} label="Add more images" />
 		</div>
 	{/if}
 </ToolShell>
