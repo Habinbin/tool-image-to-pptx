@@ -125,3 +125,18 @@
 	outline: 2px solid var(--color-apple-blue);
 	outline-offset: 2px;
 }
+
+/*
+ * 호스트 CSS 로부터 폼 컨트롤을 지킨다.
+ *
+ * 툴박스는 @tailwindcss/forms 를 쓰고, 그 플러그인은 input 의 포커스 링을
+ * box-shadow 로 그린다. 그대로 두면 툴박스 안에서는 링이 두 겹이고 단독
+ * 배포에서는 한 겹이 되어 같은 툴이 두 모습이 된다.
+ * 이 시스템은 그림자를 쓰지 않으므로 전부 끈다.
+ */
+.tool-root input,
+.tool-root button,
+.tool-root textarea,
+.tool-root select {
+	box-shadow: none;
+}
