@@ -1,15 +1,13 @@
 <script lang="ts">
-	import {
-		Button,
-		DropZone,
-		ProgressBar,
-		SegmentedControl,
-		SortableGrid,
-		TextField,
-		ToolShell
-	} from '@betlab/toolkit-ui';
-	import AlertTriangleIcon from '@lucide/svelte/icons/triangle-alert';
-	import DownloadIcon from '@lucide/svelte/icons/download';
+	import './ui/theme.css';
+
+	import Button from './ui/Button.svelte';
+	import DropZone from './ui/DropZone.svelte';
+	import ProgressBar from './ui/ProgressBar.svelte';
+	import SegmentedControl from './ui/SegmentedControl.svelte';
+	import SortableGrid from './ui/SortableGrid.svelte';
+	import TextField from './ui/TextField.svelte';
+	import ToolShell from './ui/ToolShell.svelte';
 
 	import {
 		PRESET_ORDER,
@@ -26,6 +24,13 @@
 		referenceSize,
 		type SlideEntry
 	} from './slides';
+
+	interface Props {
+		/** 목록으로 돌아갈 경로. 껍데기가 정한다. 단독 배포에서는 비운다. */
+		backHref?: string;
+	}
+
+	let { backHref }: Props = $props();
 
 	const ACCEPT = 'image/png,image/jpeg,image/gif,image/webp';
 
@@ -64,8 +69,7 @@
 	/**
 	 * 드롭·선택된 파일을 목록 끝에 붙인다.
 	 *
-	 * 새로 들어온 묶음만 자연 정렬한다 — 이미 사용자가 드래그로 잡아둔 순서를
-	 * 파일 추가가 흐트러뜨리면 안 된다.
+	 * 새로 들어온 묶음만 자연 정렬한다 — 이미 드래그로 잡아둔 순서를 흐트러뜨리지 않는다.
 	 *
 	 * @param files 새로 들어온 파일들.
 	 */
@@ -76,7 +80,7 @@
 		rejected = result.rejected;
 	}
 
-	/** 목록과 상태를 내보내기 전 기본값으로 되돌린다. */
+	/** 목록과 상태를 처음으로 되돌린다. */
 	function reset(): void {
 		entries = [];
 		rejected = [];
@@ -116,29 +120,25 @@
 <ToolShell
 	title="이미지 → PPT"
 	description="이미지를 드롭하면 한 장씩 슬라이드에 꽉 채운 PPTX로 내보냅니다."
+	{backHref}
 >
 	{#snippet actions()}
 		{#if entries.length > 0}
-			<Button variant="ghost" size="sm" onclick={reset}>전체 지우기</Button>
+			<Button variant="ghost" onclick={reset}>전체 지우기</Button>
 		{/if}
 	{/snippet}
 
 	{#if entries.length === 0}
-		<div class="py-10">
-			<DropZone
-				accept={ACCEPT}
-				onfiles={add}
-				label="이미지를 여기에 놓으세요"
-				hint="파일명 순서(0, 1, 2 … 10)대로 슬라이드가 만들어집니다. PNG · JPEG · GIF · WebP"
-			/>
-		</div>
+		<DropZone
+			accept={ACCEPT}
+			onfiles={add}
+			label="이미지를 여기에 놓으세요"
+			hint="파일명 순서(0, 1, 2 … 10)대로 슬라이드가 만들어집니다. PNG · JPEG · GIF · WebP"
+		/>
 	{:else}
-		<div class="flex flex-col gap-6">
-			<div
-				class="flex flex-wrap items-end justify-between gap-4 rounded-panel border
-				       border-hairline bg-elevated px-5 py-4"
-			>
-				<div class="flex flex-wrap items-end gap-5">
+		<div class="stack">
+			<section class="bar">
+				<div class="controls">
 					<TextField bind:value={fileName} label="파일 이름" suffix=".pptx" />
 					<SegmentedControl
 						bind:value={
@@ -150,30 +150,23 @@
 					/>
 				</div>
 
-				<div class="flex min-w-56 flex-col gap-2">
+				<div class="export">
 					{#if exporting}
 						<ProgressBar value={exported} total={entries.length} label="슬라이드 생성" />
 					{/if}
-					<Button variant="primary" block onclick={exportPptx} disabled={exporting}>
-						<DownloadIcon class="size-4" />
+					<Button variant="filled" onclick={exportPptx} disabled={exporting}>
 						{exporting ? '만드는 중…' : `PPT 내보내기 (${entries.length}장)`}
 					</Button>
 				</div>
-			</div>
+			</section>
 
 			{#if rejected.length > 0 || offRatio > 0}
-				<ul class="flex flex-col gap-1.5 text-xs text-warning">
+				<ul class="notes">
 					{#if rejected.length > 0}
-						<li class="flex items-center gap-1.5">
-							<AlertTriangleIcon class="size-3.5 shrink-0" />
-							이미지가 아니라 제외됨: {rejected.join(', ')}
-						</li>
+						<li>이미지가 아니라 제외됨: {rejected.join(', ')}</li>
 					{/if}
 					{#if offRatio > 0}
-						<li class="flex items-center gap-1.5">
-							<AlertTriangleIcon class="size-3.5 shrink-0" />
-							{offRatio}장이 슬라이드와 비율이 달라 늘어나 보입니다.
-						</li>
+						<li>{offRatio}장이 슬라이드와 비율이 달라 늘어나 보입니다.</li>
 					{/if}
 				</ul>
 			{/if}
@@ -185,20 +178,16 @@
 			>
 				{#snippet item(entry: SlideEntry)}
 					<!--
-						PPTX 는 이미지를 슬라이드 크기로 늘려서 채운다(a:stretch fillRect).
-						썸네일도 슬라이드 비율 박스에 object-fill 로 늘려야 미리보기가
-						실제 결과와 같아진다. @tool-ux-principles §3
+						PPTX 는 이미지를 슬라이드 크기로 늘려 채운다(a:stretch fillRect).
+						썸네일도 슬라이드 비율에 object-fill 이라야 미리보기가 곧 결과가 된다.
 					-->
 					<img
 						src={previews.get(entry.id)}
 						alt={entry.name}
 						loading="lazy"
 						style:aspect-ratio="{slideSize.widthEmu} / {slideSize.heightEmu}"
-						class="w-full bg-sunken object-fill"
 					/>
-					<p class="truncate px-2.5 py-2 text-xs text-ink-muted" title={entry.name}>
-						{entry.name}
-					</p>
+					<p class="name" title={entry.name}>{entry.name}</p>
 				{/snippet}
 			</SortableGrid>
 
@@ -206,3 +195,72 @@
 		</div>
 	{/if}
 </ToolShell>
+
+<style>
+	.stack {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-40);
+	}
+
+	/*
+		스펙은 #f5f5f7 섹션 안에 카드를 두지 말라고 한다. 컨트롤 줄은 카드가 아니라
+		헤어라인으로 구분된 띠로 둔다 — 면을 하나 더 얹지 않는다.
+	*/
+	.bar {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: var(--spacing-24);
+		padding-bottom: var(--spacing-24);
+		border-bottom: 1px solid var(--color-hairline);
+	}
+
+	.controls {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-end;
+		gap: var(--spacing-24);
+	}
+
+	.export {
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+		gap: var(--spacing-12);
+		min-width: 240px;
+	}
+
+	.notes {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-4);
+		font-size: var(--text-body-sm);
+		line-height: var(--leading-body-sm);
+		letter-spacing: var(--tracking-body-sm);
+		color: var(--ink-muted);
+	}
+
+	img {
+		display: block;
+		width: 100%;
+		background-color: var(--surface-filled);
+		object-fit: fill;
+	}
+
+	.name {
+		margin: 0;
+		padding: var(--spacing-8) var(--spacing-12);
+		font-size: var(--text-caption);
+		line-height: var(--leading-caption);
+		letter-spacing: var(--tracking-caption);
+		color: var(--ink-muted);
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+</style>

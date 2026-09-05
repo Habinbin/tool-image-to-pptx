@@ -1,0 +1,127 @@
+/**
+ * 디자인 토큰 — Apple Style Reference 에서 도출.
+ *
+ * 출처: temp/design/{DESIGN.md, tokens.json, variables.css}
+ * 이 파일이 이 툴에서 색·타이포·간격이 정의되는 유일한 곳이다.
+ * 컴포넌트는 여기 변수만 참조하고 리터럴을 쓰지 않는다.
+ *
+ * `:root` 가 아니라 `.tool-root` 에 거는 이유: 이 툴은 자기 사이트로도 뜨고
+ * 툴박스 안 한 페이지로도 뜬다. 전역을 오염시키면 호스트의 다른 페이지가 물든다.
+ */
+
+.tool-root {
+	/* ── 색 ─────────────────────────────────────────────
+	   파랑은 셋이고 역할이 겹치지 않는다.
+	   apple-blue = filled 액션 전용(텍스트·테두리·장식 금지)
+	   link-blue  = outlined 액션 테두리와 인라인 링크
+	   signal-blue = 장식 전용 */
+	--color-apple-blue: #0071e3;
+	--color-link-blue: #0066cc;
+	--color-signal-blue: #2997ff;
+
+	--color-carbon: #1d1d1f;
+	--color-smoke: #333333;
+	--color-graphite: #474747;
+	--color-ash: #707070;
+	--color-mist: #858585;
+	--color-onyx: #000000;
+
+	--color-frost: #f5f5f7;
+	--color-ice: #f4f8fb;
+	--color-pebble: #e2e2e5;
+	--color-white: #ffffff;
+
+	/* 스펙의 컴포넌트 정의(미니내비·입력·푸터)가 일관되게 쓰는 헤어라인.
+	   토큰 표에는 없지만 시스템의 실질적인 경계선 색이라 이름을 준다. */
+	--color-hairline: #d2d2d7;
+
+	/* ── 역할 ───────────────────────────────────────── */
+	--surface-canvas: var(--color-frost);
+	--surface-panel: var(--color-white);
+	--surface-wash: var(--color-ice);
+	--surface-filled: var(--color-pebble);
+
+	--ink: var(--color-carbon);
+	--ink-secondary: var(--color-graphite);
+	--ink-muted: var(--color-ash);
+	--ink-faint: var(--color-mist);
+	--ink-on-accent: var(--color-ice);
+
+	/* ── 타이포 ─────────────────────────────────────────
+	   SF Pro 는 웹에 없으므로 스펙이 지정한 대체 Inter 를 앞에 둔다.
+	   자간은 크기가 커질수록 음수 폭이 줄어드는 것이 이 시스템의 특징이다. */
+	--font-display:
+		'SF Pro Display', 'Inter Variable', Inter, ui-sans-serif, system-ui, -apple-system,
+		BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	--font-text:
+		'SF Pro Text', 'Inter Variable', Inter, ui-sans-serif, system-ui, -apple-system,
+		BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+	--text-caption: 12px;
+	--leading-caption: 1.33;
+	--tracking-caption: -0.264px;
+	--text-body-sm: 14px;
+	--leading-body-sm: 1.29;
+	--tracking-body-sm: -0.224px;
+	--text-body: 17px;
+	--leading-body: 1.47;
+	--tracking-body: -0.272px;
+	--text-subheading: 21px;
+	--leading-subheading: 1.24;
+	--tracking-subheading: -0.105px;
+	--text-heading-sm: 28px;
+	--leading-heading-sm: 1.18;
+	--tracking-heading-sm: 0.196px;
+
+	--weight-light: 300;
+	--weight-regular: 400;
+	--weight-semibold: 600;
+
+	/* ── 간격 (4px 단위, comfortable) ───────────────── */
+	--spacing-4: 4px;
+	--spacing-8: 8px;
+	--spacing-12: 12px;
+	--spacing-16: 16px;
+	--spacing-20: 20px;
+	--spacing-24: 24px;
+	--spacing-40: 40px;
+	--spacing-48: 48px;
+	--spacing-56: 56px;
+
+	--page-max-width: 1440px;
+	--section-gap: 64px;
+	--card-padding: 24px;
+	--element-gap: 12px;
+
+	/* ── 모양 ───────────────────────────────────────────
+	   반경은 둘뿐이다. 버튼·태그는 알약, 카드·이미지·입력은 8px.
+	   그 사이 값은 이 시스템에 존재하지 않는다. */
+	--radius-pill: 980px;
+	--radius-card: 8px;
+
+	/* 그림자는 제품 이미지에만. 카드·버튼·패널에는 쓰지 않는다. */
+	--shadow-image: rgba(0, 0, 0, 0.22) 3px 5px 30px 0px;
+}
+
+/* 툴 루트의 기본 조판. 호스트가 무엇을 깔았든 이 안은 이 시스템을 따른다. */
+.tool-root {
+	background-color: var(--surface-canvas);
+	color: var(--ink);
+	font-family: var(--font-text);
+	font-size: var(--text-body);
+	line-height: var(--leading-body);
+	letter-spacing: var(--tracking-body);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.tool-root *,
+.tool-root *::before,
+.tool-root *::after {
+	box-sizing: border-box;
+}
+
+.tool-root :focus-visible {
+	outline: 2px solid var(--color-apple-blue);
+	outline-offset: 2px;
+}
