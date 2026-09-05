@@ -1,0 +1,21 @@
+{
+	"name": "@betlab/tool-image-to-pptx",
+	"private": true,
+	"version": "0.1.0",
+	"type": "module",
+	"description": "이미지를 슬라이드마다 꽉 채운 PPTX로 내보내는 toolbox 툴",
+	"exports": { ".": "./src/index.ts" },
+	"scripts": {
+		"test": "vitest run"
+	},
+	"peerDependencies": {
+		"@lucide/svelte": "^1.17.0",
+		"jszip": "^3.10.1",
+		"svelte": "^5.55.2"
+	},
+	"devDependencies": {
+		"jszip": "^3.10.1",
+		"typescript": "^6.0.2",
+		"vitest": "^4.1.3"
+	}
+}
