@@ -182,8 +182,22 @@
 </div>
 
 <style>
+	/*
+		호스트가 남은 높이를 넘겨주면 빈 상태의 드롭 영역이 그 가운데에 온다.
+		툴박스 안에서 툴을 옮겨 다닐 때 파일을 놓는 자리가 바뀌지 않게 하려는 것.
+		단독으로 뜰 때는 min-height 가 대신 자리를 잡는다.
+	*/
+	.tool-root {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+	}
+
 	.empty {
-		padding-top: var(--space-32);
+		display: grid;
+		flex: 1;
+		place-items: center;
+		min-height: 50vh;
 	}
 
 	.stack {
