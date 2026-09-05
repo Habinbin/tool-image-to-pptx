@@ -184,11 +184,17 @@
 				onremove={(entry) => (entries = entries.filter((e) => e.id !== entry.id))}
 			>
 				{#snippet item(entry: SlideEntry)}
+					<!--
+						PPTX 는 이미지를 슬라이드 크기로 늘려서 채운다(a:stretch fillRect).
+						썸네일도 슬라이드 비율 박스에 object-fill 로 늘려야 미리보기가
+						실제 결과와 같아진다. @tool-ux-principles §3
+					-->
 					<img
 						src={previews.get(entry.id)}
 						alt={entry.name}
 						loading="lazy"
-						class="aspect-video w-full bg-sunken object-contain"
+						style:aspect-ratio="{slideSize.widthEmu} / {slideSize.heightEmu}"
+						class="w-full bg-sunken object-fill"
 					/>
 					<p class="truncate px-2.5 py-2 text-xs text-ink-muted" title={entry.name}>
 						{entry.name}
