@@ -101,7 +101,7 @@
 		width: 100%;
 		padding: var(--space-40) var(--space-24);
 		background-color: var(--surface);
-		border: 1px dashed var(--line);
+		border: 1px dashed var(--line-strong);
 		border-radius: var(--radius-control);
 		cursor: pointer;
 		transition:
@@ -121,8 +121,8 @@
 	}
 
 	.icon {
-		width: 28px;
-		height: 28px;
+		width: 26px;
+		height: 26px;
 		color: var(--ink-faint);
 		margin-bottom: var(--space-4);
 	}
