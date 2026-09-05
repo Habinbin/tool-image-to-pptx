@@ -68,7 +68,9 @@
 		color: var(--ink);
 	}
 
-	input:focus {
+	/* 링은 래퍼가 그린다. 안쪽 input 까지 그리면 두 겹이 된다. */
+	input:focus,
+	input:focus-visible {
 		outline: none;
 	}
 
