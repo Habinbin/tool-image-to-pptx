@@ -101,6 +101,9 @@ export function countOffRatio(entries: readonly SlideEntry[], slideRatio: number
  * @returns `.pptx` 로 끝나는 안전한 파일명.
  */
 export function outputFileName(raw: string): string {
-	const trimmed = raw.trim().replace(/[\\/:*?"<>|]/g, '').replace(/\.pptx$/i, '');
+	const trimmed = raw
+		.trim()
+		.replace(/[\\/:*?"<>|]/g, '')
+		.replace(/\.pptx$/i, '');
 	return `${trimmed === '' ? 'slides' : trimmed}.pptx`;
 }

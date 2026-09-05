@@ -28,7 +28,8 @@ const NS_P = 'http://schemas.openxmlformats.org/presentationml/2006/main';
 
 const REL_TYPE = {
 	officeDocument: `${NS_R}/officeDocument`,
-	coreProperties: 'http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties',
+	coreProperties:
+		'http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties',
 	extendedProperties: `${NS_R}/extended-properties`,
 	slideMaster: `${NS_R}/slideMaster`,
 	slideLayout: `${NS_R}/slideLayout`,

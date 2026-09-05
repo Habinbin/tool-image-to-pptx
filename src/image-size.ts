@@ -78,7 +78,10 @@ export function readImageSize(bytes: Uint8Array): ImageSize | null {
 	) {
 		const format = String.fromCharCode(bytes[12], bytes[13], bytes[14], bytes[15]);
 		if (format === 'VP8 ') {
-			return { width: view.getUint16(26, true) & 0x3fff, height: view.getUint16(28, true) & 0x3fff };
+			return {
+				width: view.getUint16(26, true) & 0x3fff,
+				height: view.getUint16(28, true) & 0x3fff
+			};
 		}
 		if (format === 'VP8L') {
 			const bits = view.getUint32(21, true);
@@ -102,7 +105,13 @@ export function readImageSize(bytes: Uint8Array): ImageSize | null {
 			}
 			const marker = bytes[offset + 1];
 			// SOF0~SOF15 중 DHT(c4)·JPG(c8)·DAC(cc) 를 제외한 것이 프레임 헤더다.
-			if (marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc) {
+			if (
+				marker >= 0xc0 &&
+				marker <= 0xcf &&
+				marker !== 0xc4 &&
+				marker !== 0xc8 &&
+				marker !== 0xcc
+			) {
 				return { width: view.getUint16(offset + 7), height: view.getUint16(offset + 5) };
 			}
 			offset += 2 + view.getUint16(offset + 2);
