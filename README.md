@@ -53,4 +53,13 @@ CI 에서도 돌아야 하기 때문이다. 실제로 감당해야 하는 것은
 | `src/pptx.ts`         | OOXML 생성                                 |
 | `src/App.svelte`      | UI. `$ui` primitive로만 조립               |
 
+## 배포 상태
+
+지금은 **툴박스 임베드 전용**이다 (`betlab-toolbox` 의 `/image-to-pptx`).
+
+단독 배포(자기 URL 을 가진 독립 사이트)를 하려면 `app/` 껍데기와 `adapter-vercel` 이
+필요하다. 구조는 `standalone-tool-deployment` 룰에 정의돼 있고, 착수 전에
+**공유 UI(`@betlab/toolkit-ui`)를 단독 앱이 어떻게 가져올지** 를 먼저 정해야 한다.
+`package.json` 은 요구만 `peerDependencies` 로 밝혀 두었고 해석 방식은 껍데기가 정한다.
+
 규약: [`bet-lab/tool-agent-playbook`](https://github.com/bet-lab/tool-agent-playbook)
