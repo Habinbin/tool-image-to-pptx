@@ -21,6 +21,39 @@
 	let dragging = $state(false);
 	let input: HTMLInputElement;
 
+	/*
+		이 문서 안에서 시작된 드래그인지 기억해 둔다.
+
+		카드를 끌어 슬라이드 순서를 바꾸는 중에도 브라우저는 dataTransfer 에
+		'Files' 를 담는다 — 카드 안 이미지를 파일로 꺼낼 수 있기 때문이다. 그래서
+		types 만 보면 순서를 바꾸는 내내 이 영역이 반응한다. 드래그가 어디서
+		시작됐는지로 가른다 — OS 에서 끌어온 파일은 dragstart 가 나지 않는다.
+	*/
+	let internalDrag = $state(false);
+
+	$effect(() => {
+		const start = (): void => void (internalDrag = true);
+		const end = (): void => void (internalDrag = false);
+		document.addEventListener('dragstart', start, true);
+		document.addEventListener('dragend', end, true);
+		document.addEventListener('drop', end, true);
+		return () => {
+			document.removeEventListener('dragstart', start, true);
+			document.removeEventListener('dragend', end, true);
+			document.removeEventListener('drop', end, true);
+		};
+	});
+
+	/**
+	 * 이 드래그를 파일 드롭으로 받아야 하는지.
+	 *
+	 * @param event 드래그 이벤트.
+	 * @returns OS 에서 끌어온 파일이면 true.
+	 */
+	function isFileDrag(event: DragEvent): boolean {
+		return !internalDrag && (event.dataTransfer?.types.includes('Files') ?? false);
+	}
+
 	/**
 	 * 드롭·선택된 파일을 상위로 넘긴다.
 	 *
@@ -37,6 +70,7 @@
 	class="wrap"
 	class:compact
 	ondragover={(e: DragEvent) => {
+		if (!isFileDrag(e)) return;
 		e.preventDefault();
 		dragging = true;
 	}}
