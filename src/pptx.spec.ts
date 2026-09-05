@@ -6,8 +6,9 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import { slideSizeOf } from './aspect';
 import { buildPptx, type SlideImage } from './pptx';
 
-const SAMPLE_DIR = '/home/habin/codes/toolbox/temp';
-const NAMES = ['0.png', '1.png', '2.png', '3.png', '4.png', '5.png', '6.png', '7.png', '8.png'];
+const SAMPLE_DIR = new URL('./fixtures', import.meta.url).pathname;
+/** 자연 정렬을 거친 뒤의 순서. `10.png` 이 `2.png` 뒤에 온다. */
+const NAMES = ['0.png', '1.png', '2.png', '10.png'];
 
 const SIZE = slideSizeOf('16:10');
 
@@ -31,7 +32,7 @@ beforeAll(async () => {
 	}));
 	const blob = await buildPptx(images, { size: SIZE, title: 'Openlab' });
 	zip = await JSZip.loadAsync(await blob.arrayBuffer());
-}, 120_000);
+});
 
 describe('buildPptx', () => {
 	it('슬라이드 수가 입력 이미지 수와 같다', () => {
@@ -42,7 +43,7 @@ describe('buildPptx', () => {
 	it('presentation.xml 이 모든 슬라이드를 순서대로 참조한다', async () => {
 		const xml = await zip.file('ppt/presentation.xml')!.async('string');
 		const ids = [...xml.matchAll(/<p:sldId id="\d+" r:id="(rId\d+)"\/>/g)].map((m) => m[1]);
-		expect(ids).toEqual(['rId3', 'rId4', 'rId5', 'rId6', 'rId7', 'rId8', 'rId9', 'rId10', 'rId11']);
+		expect(ids).toEqual(['rId3', 'rId4', 'rId5', 'rId6']);
 	});
 
 	it('슬라이드 크기가 사용자의 기존 PPT 와 같다', async () => {
@@ -70,7 +71,7 @@ describe('buildPptx', () => {
 			const stored = await zip.file(`ppt/media/image${n}.png`)!.async('uint8array');
 			expect(stored).toEqual(images[n - 1].bytes);
 		}
-	}, 60_000);
+	});
 
 	it('PowerPoint 가 요구하는 파트가 전부 있다', () => {
 		for (const part of [

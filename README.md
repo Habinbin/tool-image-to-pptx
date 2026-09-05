@@ -34,6 +34,15 @@ Figma에서 뽑은 이미지를 빈 슬라이드에 하나씩 드래그해 붙�
 
 `[x]` 는 `*.spec.ts` 로 자동 검증된다.
 
+```sh
+pnpm test                                      # repo 안 픽스처만 — 어디서든 돈다
+REAL_SAMPLES_DIR=/path/to/exports pnpm test    # 실제 Figma 내보내기까지 포함
+```
+
+기본 테스트는 `src/fixtures/` 의 작은 PNG 만 쓴다 — 어느 체크아웃에서도 돌아야 하고
+CI 에서도 돌아야 하기 때문이다. 실제로 감당해야 하는 것은 4320×2700 짜리 수십 장
+(수백 MB)이라, 그 검증은 `REAL_SAMPLES_DIR` 를 준 사람만 돌리는 옵트인 테스트로 둔다.
+
 ## 구조
 
 | 파일                  | 역할                                       |

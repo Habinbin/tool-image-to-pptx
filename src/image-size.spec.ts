@@ -4,18 +4,24 @@ import { describe, expect, it } from 'vitest';
 
 import { mediaExtension, readImageSize } from './image-size';
 
-/** 사용자가 실제로 쓰는 Figma 내보내기 샘플. */
-const SAMPLE = '/home/habin/codes/toolbox/temp/0.png';
+/** repo 안 픽스처. 테스트는 이 체크아웃 밖의 무엇에도 기대지 않는다. */
+const SAMPLE = new URL('./fixtures/0.png', import.meta.url).pathname;
+const WIDE = new URL('./fixtures/wide-16x9.png', import.meta.url).pathname;
 
 describe('readImageSize', () => {
 	it('PNG 크기를 읽는다', () => {
 		const bytes = new Uint8Array(readFileSync(SAMPLE));
-		expect(readImageSize(bytes)).toEqual({ width: 4320, height: 2700 });
+		expect(readImageSize(bytes)).toEqual({ width: 320, height: 200 });
 	});
 
 	it('헤더만으로 읽는다 — 전체를 넘기지 않아도 된다', () => {
 		const head = new Uint8Array(readFileSync(SAMPLE)).slice(0, 64);
-		expect(readImageSize(head)).toEqual({ width: 4320, height: 2700 });
+		expect(readImageSize(head)).toEqual({ width: 320, height: 200 });
+	});
+
+	it('비율이 다른 이미지도 읽는다', () => {
+		const bytes = new Uint8Array(readFileSync(WIDE));
+		expect(readImageSize(bytes)).toEqual({ width: 320, height: 180 });
 	});
 
 	it('GIF 크기를 읽는다', () => {
