@@ -129,12 +129,14 @@
 	{/snippet}
 
 	{#if entries.length === 0}
-		<DropZone
-			accept={ACCEPT}
-			onfiles={add}
-			label="이미지를 여기에 놓으세요"
-			hint="파일명 순서(0, 1, 2 … 10)대로 슬라이드가 만들어집니다. PNG · JPEG · GIF · WebP"
-		/>
+		<div class="empty">
+			<DropZone
+				accept={ACCEPT}
+				onfiles={add}
+				label="이미지를 여기에 놓으세요"
+				hint="파일명 순서(0, 1, 2 … 10)대로 슬라이드가 만들어집니다. PNG · JPEG · GIF · WebP"
+			/>
+		</div>
 	{:else}
 		<div class="stack">
 			<section class="bar">
@@ -197,6 +199,10 @@
 </ToolShell>
 
 <style>
+	.empty {
+		padding-top: var(--spacing-48);
+	}
+
 	.stack {
 		display: flex;
 		flex-direction: column;

@@ -80,6 +80,15 @@
 	}
 
 	/*
+		큰 드롭 영역은 텍스트 블록에 가깝다. 스펙은 페이지를 full-bleed 로 두되
+		텍스트는 내부에서 980px 정도로 모으라고 한다.
+	*/
+	.wrap:not(.compact) {
+		max-width: 720px;
+		margin: 0 auto;
+	}
+
+	/*
 		드롭 영역은 알약이 아니라 면(surface)이다. 스펙의 두 반경 중
 		카드·이미지·입력 쪽인 8px 을 쓴다.
 	*/
@@ -140,6 +149,6 @@
 		font-weight: var(--weight-light);
 		color: var(--ink-muted);
 		text-align: center;
-		max-width: 42ch;
+		max-width: 56ch;
 	}
 </style>
