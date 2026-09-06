@@ -14,12 +14,15 @@
 	const Icon = manifest.icon;
 </script>
 
+<!-- 탭 제목·설명도 manifest 에서 가져온다. app.html 에 적으면 이름이 두 곳에 남는다. -->
+<svelte:head>
+	<title>{manifest.title}</title>
+	<meta name="description" content={manifest.description} />
+</svelte:head>
+
 <header class="shell-header">
 	<div class="mark"><Icon size={18} strokeWidth={1.75} /></div>
-	<div class="text">
-		<h1>{manifest.title}</h1>
-		<p>{manifest.description}</p>
-	</div>
+	<h1>{manifest.title}</h1>
 </header>
 
 <div class="body">{@render children()}</div>
@@ -85,37 +88,30 @@
 		font-family: 'Noto Sans KR Variable', 'Noto Sans KR', ui-sans-serif, system-ui, sans-serif;
 	}
 
-	/* 아이콘을 타일에 앉혀 두 줄짜리 글 덩어리와 광학적 높이를 맞춘다. */
+	/*
+		아이콘은 본문의 주 행동(드롭 버튼)과 같은 처리를 쓴다 — 채운 파란 면에 흰 아이콘이
+		음각처럼 뚫린다. 한 화면에 강조색이 두 가지 표정으로 나오면 같은 체계로 안 읽힌다.
+		값은 툴 기본 강조색(`--accent` 의 기본값)과 같다.
+	*/
 	.mark {
 		display: grid;
 		flex-shrink: 0;
 		place-items: center;
 		width: 36px;
 		height: 36px;
-		border: 1px solid #d2d2d7;
 		border-radius: 8px;
-		background-color: #f5f5f7;
-	}
-
-	/* 설명을 말줄임하려면 flex 자식이 줄어들 수 있어야 한다. */
-	.text {
-		min-width: 0;
+		background-color: #0071e3;
+		color: #ffffff;
 	}
 
 	h1 {
 		margin: 0;
-		font-size: 15px;
-		font-weight: 600;
-		line-height: 1.3;
-	}
-
-	p {
-		margin: 0;
-		color: #6e6e73;
-		font-size: 11px;
-		line-height: 1.4;
+		min-width: 0;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+		font-size: 15px;
+		font-weight: 600;
+		line-height: 1.3;
 	}
 </style>
