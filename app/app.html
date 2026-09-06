@@ -4,8 +4,9 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--
-			단독 사이트는 이 툴이 전부라 화면에 제목을 그리지 않는다.
-			주소를 받은 사람이 무엇인지 아는 경로는 탭 제목과 파비콘뿐이다.
+			화면의 제목·설명은 `+layout.svelte` 가 manifest 에서 가져와 헤더로 그린다.
+			여기 적은 값은 그것과 같은 문구지만 쓰임이 다르다 — 탭·검색결과·공유 카드처럼
+			문서가 열리기 전에 읽히는 자리라 정적 HTML 에 박혀 있어야 한다.
 		-->
 		<title>이미지 to PPT</title>
 		<meta
