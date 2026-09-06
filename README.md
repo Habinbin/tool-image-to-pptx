@@ -55,11 +55,32 @@ CI 에서도 돌아야 하기 때문이다. 실제로 감당해야 하는 것은
 
 ## 배포 상태
 
-지금은 **툴박스 임베드 전용**이다 (`betlab-toolbox` 의 `/image-to-pptx`).
+껍데기가 둘이고 동작은 하나다.
 
-단독 배포(자기 URL 을 가진 독립 사이트)를 하려면 `app/` 껍데기와 `adapter-vercel` 이
-필요하다. 구조는 `standalone-tool-deployment` 룰에 정의돼 있고, 착수 전에
-**공유 UI(`@betlab/toolkit-ui`)를 단독 앱이 어떻게 가져올지** 를 먼저 정해야 한다.
-`package.json` 은 요구만 `peerDependencies` 로 밝혀 두었고 해석 방식은 껍데기가 정한다.
+| 껍데기        | 어디에                               | 진입점                               |
+| ------------- | ------------------------------------ | ------------------------------------ |
+| 툴박스 임베드 | `betlab-toolbox` 의 `/image-to-pptx` | `src/index.ts` 의 `manifest` + `App` |
+| 단독 사이트   | 자기 URL (Vercel, 정적 프리렌더)     | `app/` + `svelte.config.js`          |
+
+`manifest.surface` 는 `'embed'` 그대로다 — 툴박스는 계속 안에서 렌더한다.
+단독 배포는 그 위에 표면을 하나 더 얹은 것이지, 임베드를 대체한 것이 아니다.
+
+```sh
+pnpm install && pnpm build   # .vercel/output/static — 서버 없는 정적 산출물
+pnpm dev                     # 단독 껍데기로 띄워 보기
+```
+
+`app/` 에는 **동작이 없다.** 툴박스에 실리면 `app/` 은 존재하지 않으므로, 여기 기능을
+넣으면 임베드에서 조용히 사라진다. 라우트는 `App` 을 렌더하는 세 줄이 전부이고,
+제목·설명·뒤로가기 같은 화면 요소는 그리지 않는다 — 단독 사이트는 이 툴이 전부라
+제목이 군더더기다. 식별은 탭 제목과 파비콘으로만 한다.
+
+계약 토큰(`--betlab-*`)도 `app/` 에서 정의하지 않는다. 정의하는 순간 호스트가 테마를
+덮어쓴 셈이 되어, 단독 실행에서 툴 자신의 기본값(`src/ui/theme.css` 의 폴백)이
+안 쓰인다. 껍데기는 `body` 의 여백·배경·높이까지만 정한다.
+
+런타임 의존(`svelte` · `jszip` · `@lucide/svelte` · 폰트)은 `peerDependencies` 로 요구를
+밝히고 — 툴박스가 단일 버전으로 설치한다 — 단독 빌드가 혼자 서도록 `devDependencies`
+에도 같이 적어 둔다. `dependencies` 는 비운다.
 
 규약: [`bet-lab/tool-agent-playbook`](https://github.com/bet-lab/tool-agent-playbook)

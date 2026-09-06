@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--
+			단독 사이트는 이 툴이 전부라 화면에 제목을 그리지 않는다.
+			주소를 받은 사람이 무엇인지 아는 경로는 탭 제목과 파비콘뿐이다.
+		-->
+		<title>이미지 to PPT</title>
+		<meta
+			name="description"
+			content="이미지를 드롭하면 한 장씩 슬라이드에 꽉 채운 PPTX로 내보냅니다. 비율과 순서는 자동으로 잡습니다."
+		/>
+		<link rel="icon" href="%sveltekit.assets%/favicon.svg" />
+		%sveltekit.head%
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+</html>
