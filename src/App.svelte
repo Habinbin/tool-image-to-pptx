@@ -117,7 +117,7 @@
 				accept={ACCEPT}
 				onfiles={add}
 				label="이미지를 여기에 놓으세요"
-				hint="파일명 순서(0, 1, 2 … 10)대로 슬라이드가 만들어집니다. PNG · JPEG · GIF · WebP"
+				hint="파일명 순서대로 슬라이드가 만들어집니다."
 			/>
 		</div>
 	{:else}
