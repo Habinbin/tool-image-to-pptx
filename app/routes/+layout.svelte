@@ -1,8 +1,28 @@
 <script lang="ts">
+	/*
+		단독 사이트의 헤더. 툴박스에서는 툴박스 껍데기가 같은 자리를 그리므로,
+		여기는 그 역할만 대신한다 — 툴(`src/`)은 자기가 어느 화면 구성 안에 있는지 모른다.
+
+		제목·설명·아이콘을 손으로 적지 않고 manifest 에서 가져온다. 두 곳에 적으면
+		런처에 뜨는 이름과 사이트에 뜨는 이름이 언젠가 갈라진다.
+	*/
+	import { manifest } from '$lib/index';
+
 	let { children } = $props();
+
+	/** `manifest.icon` 은 lucide Svelte 컴포넌트다 — 대문자로 받아 그대로 렌더한다. */
+	const Icon = manifest.icon;
 </script>
 
-{@render children()}
+<header class="shell-header">
+	<div class="mark"><Icon size={18} strokeWidth={1.75} /></div>
+	<div class="text">
+		<h1>{manifest.title}</h1>
+		<p>{manifest.description}</p>
+	</div>
+</header>
+
+<div class="body">{@render children()}</div>
 
 <style>
 	/*
@@ -20,5 +40,82 @@
 		flex-direction: column;
 		margin: 0;
 		background-color: #f5f5f7;
+	}
+
+	/*
+		본문의 바깥 여백은 껍데기가 정한다 — 툴은 자기가 어느 화면 구성 안에 있는지 모르므로
+		여백을 갖지 않는다(툴박스에서도 호스트가 같은 값을 준다). 여기서 주지 않으면
+		목록 상태의 컨트롤 바가 창 가장자리에 붙어 헤더의 28px 와 왼쪽 선이 어긋난다.
+
+		`flex: 1` + `min-height: 0` 이라야 툴의 `.tool-root { flex: 1 }` 이 남은 높이를 받아
+		빈 상태의 드롭 영역이 본문 가운데에 온다.
+	*/
+	.body {
+		/* 툴의 리셋은 `.tool-root` 안에만 걸린다 — 그 바깥인 여기는 직접 지정해야
+		   `width: 100%` 에 좌우 여백이 더해져 오른쪽으로 넘치지 않는다. */
+		box-sizing: border-box;
+		display: flex;
+		width: 100%;
+		max-width: 1280px;
+		min-height: 0;
+		flex: 1;
+		flex-direction: column;
+		margin: 0 auto;
+		padding: 24px 28px;
+	}
+
+	/*
+		헤더의 색·선·글자도 같은 이유로 계약 토큰이 아니라 값으로 적는다. 헤더는
+		`.tool-root` 바깥이라 툴의 토큰이 닿지 않고, 여기서 `--betlab-*` 를 정의하면
+		호스트 노릇을 하게 되어 툴이 자기 기본값을 쓰지 못한다.
+		아래 값은 모두 `src/ui/theme.css` 의 기본값과 같다 — 바뀌면 같이 바꾼다.
+
+		`flex-shrink: 0` 으로 헤더가 제 높이를 지켜야 형제인 `.tool-root` 가 남은 높이를
+		받는다. 그래야 빈 상태의 드롭 영역이 헤더 아래 본문 영역의 가운데에 온다.
+	*/
+	.shell-header {
+		display: flex;
+		flex-shrink: 0;
+		align-items: center;
+		gap: 12px;
+		padding: 14px 28px;
+		border-bottom: 1px solid #d2d2d7;
+		background-color: #ffffff;
+		color: #1d1d1f;
+		font-family: 'Noto Sans KR Variable', 'Noto Sans KR', ui-sans-serif, system-ui, sans-serif;
+	}
+
+	/* 아이콘을 타일에 앉혀 두 줄짜리 글 덩어리와 광학적 높이를 맞춘다. */
+	.mark {
+		display: grid;
+		flex-shrink: 0;
+		place-items: center;
+		width: 36px;
+		height: 36px;
+		border: 1px solid #d2d2d7;
+		border-radius: 8px;
+		background-color: #f5f5f7;
+	}
+
+	/* 설명을 말줄임하려면 flex 자식이 줄어들 수 있어야 한다. */
+	.text {
+		min-width: 0;
+	}
+
+	h1 {
+		margin: 0;
+		font-size: 15px;
+		font-weight: 600;
+		line-height: 1.3;
+	}
+
+	p {
+		margin: 0;
+		color: #6e6e73;
+		font-size: 11px;
+		line-height: 1.4;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 </style>
